@@ -8,6 +8,7 @@
     "dev": "nodemon app.js",
     "lint": "npx eslint"
   },
+  "prettier": {"singleQuote": true},
   "keywords": [],
   "author": "Vladimir Khnychkov",
   "license": "ISC",
