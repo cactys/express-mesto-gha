@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -26,6 +27,8 @@ app.use((req, res, next) => {
 
 app.use('/users', users);
 app.use('/cards', cards);
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
