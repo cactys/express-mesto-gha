@@ -33,10 +33,10 @@ module.exports.deleteCard = (req, res) => {
       res.status(200).send({ data: card, message: 'DELETE' });
     })
     .catch((err) => {
-      if (err.name === 'ReferenceError') {
+      if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Карточки не найдена' });
       }
-      if (err.name === 'CastError') {
+      if (err.name === 'ReferenceError') {
         return res.status(404).send({ message: 'Карточки не найдена' });
       }
       res.status(500).send({ message: err.message });
@@ -61,10 +61,10 @@ module.exports.likeCard = (req, res) => {
       res.status(200).send({ data: card, message: 'LIKE' });
     })
     .catch((err) => {
-      if (err.name === 'ReferenceError') {
+      if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Карточки не найдена' });
       }
-      if (err.name === 'CastError') {
+      if (err.name === 'ReferenceError') {
         return res.status(404).send({ message: 'Карточки не найдена' });
       }
       res.status(500).send({ message: err.name });
@@ -89,10 +89,10 @@ module.exports.dislikeCard = (req, res) => {
       res.status(200).send({ data: card, message: 'DISLIKE' });
     })
     .catch((err) => {
-      if (err.name === 'ReferenceError') {
+      if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Карточки не найдена' });
       }
-      if (err.name === 'CastError') {
+      if (err.name === 'ReferenceError') {
         return res.status(404).send({ message: 'Карточки не найдена' });
       }
       res.status(500).send({ message: err.message });
