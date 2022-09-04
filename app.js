@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 
-const { PORT } = process.env;
+const { PORT, ERROR_CODE_404 } = process.env;
 const app = express();
 
 app.use(bodyParser.json());
@@ -27,8 +27,8 @@ app.use((req, res, next) => {
 
 app.use('/users', users);
 app.use('/cards', cards);
-app.use('*', (req, res) => {
-  res.send({message: 'Страница не найдена'});
+app.use((req, res) => {
+  res.status(ERROR_CODE_404).send({ message: 'Страница не найдена' });
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
