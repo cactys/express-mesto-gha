@@ -25,11 +25,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('*', (req, res, next) => {
-  next(new NotFoundError('Страница не найдена'));
-});
 app.use('/users', users);
 app.use('/cards', cards);
+app.use('*', (req, res) => {
+  res.send({message: 'Страница не найдена'});
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 

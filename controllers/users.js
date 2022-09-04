@@ -73,7 +73,7 @@ module.exports.updateUser = (req, res) => {
           .status(404)
           .send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send({ message: err.name });
+      res.status(500).send({ message: err.message });
     });
 };
 

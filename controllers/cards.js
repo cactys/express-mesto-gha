@@ -7,8 +7,6 @@ module.exports.getCards = (req, res) => {
 };
 
 module.exports.createCard = (req, res) => {
-  console.log(req.user._id);
-
   const userId = req.user._id;
   const { name, link } = req.body;
 
@@ -67,7 +65,7 @@ module.exports.likeCard = (req, res) => {
       if (err.name === 'ReferenceError') {
         return res.status(404).send({ message: 'Карточки не найдена' });
       }
-      res.status(500).send({ message: err.name });
+      res.status(500).send({ message: err.message });
     });
 };
 
