@@ -25,9 +25,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', (req, res) => {
-  res.status(404).send({ message: 'Страница не найдена' });
-});
 app.use('/users', users);
 app.use('/cards', cards);
 
