@@ -57,8 +57,6 @@ module.exports.updateUser = (req, res) => {
       if (user === null) {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
-      console.log(user);
-
       return res.status(200).send({ data: user });
     })
     .catch((err) => {
@@ -83,7 +81,12 @@ module.exports.updateAvatar = (req, res) => {
   const userId = req.user._id;
   const { avatar } = req.body;
 
-  User.findByIdAndUpdate(userId, { avatar })
+  User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true })
     .then((user) => res.status(200).send({ data: user }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return res.status(400).send({ message: 'Не корректные данные' });
+      }
+      res.status(500).send({ message: err.message });
+    });
 };
