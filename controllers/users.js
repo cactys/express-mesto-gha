@@ -12,9 +12,9 @@ module.exports.getUserId = (req, res) => {
   User.findById(userId)
     .then((user) => {
       if (user === null) {
-        throw new NotFoundError('Запрашиваемый пользователь не найден');
+        throw new NotFoundError();
       }
-      return res.send({ data: user });
+      res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -38,7 +38,7 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res.status(400).send({ message: 'Не корректные данные' });
+        return res.status(400).send({ message: 'Некорректные данные' });
       }
       res.status(500).send({ message: err.message });
     });
@@ -55,13 +55,13 @@ module.exports.updateUser = (req, res) => {
   )
     .then((user) => {
       if (user === null) {
-        throw new NotFoundError('Запрашиваемый пользователь не найден');
+        throw new NotFoundError();
       }
-      return res.status(200).send({ data: user });
+      res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res.status(400).send({ message: 'Не корректные данные' });
+        return res.status(400).send({ message: 'Некорректные данные' });
       }
       if (err.name === 'CastError') {
         return res
@@ -85,7 +85,7 @@ module.exports.updateAvatar = (req, res) => {
     .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res.status(400).send({ message: 'Не корректные данные' });
+        return res.status(400).send({ message: 'Некорректные данные' });
       }
       res.status(500).send({ message: err.message });
     });

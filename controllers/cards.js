@@ -14,15 +14,33 @@ module.exports.createCard = (req, res) => {
 
   Card.create({ name, link, owner: userId })
     .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return res.status(400).send({ message: 'Некорректные данные' });
+      }
+      res.status(500).send({ message: err.message });
+    });
 };
 
 module.exports.deleteCard = (req, res) => {
   const cardId = req.params.cardId;
 
   Card.findByIdAndRemove(cardId)
-    .then((card) => res.status(200).send({ data: card, message: 'DELETE' }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .then((card) => {
+      if (card === null) {
+        throw new NotFoundError();
+      }
+      res.status(200).send({ data: card, message: 'DELETE' });
+    })
+    .catch((err) => {
+      if (err.name === 'ReferenceError') {
+        return res.status(400).send({ message: 'Карточки не найдена' });
+      }
+      if (err.name === 'CastError') {
+        return res.status(404).send({ message: 'Карточки не найдена' });
+      }
+      res.status(500).send({ message: err.message });
+    });
 };
 
 module.exports.likeCard = (req, res) => {
@@ -36,8 +54,21 @@ module.exports.likeCard = (req, res) => {
     },
     { new: true }
   )
-    .then((card) => res.status(200).send({ data: card, message: 'LIKE' }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .then((card) => {
+      if (card === null) {
+        throw new NotFoundError();
+      }
+      res.status(200).send({ data: card, message: 'LIKE' });
+    })
+    .catch((err) => {
+      if (err.name === 'ReferenceError') {
+        return res.status(400).send({ message: 'Карточки не найдена' });
+      }
+      if (err.name === 'CastError') {
+        return res.status(404).send({ message: 'Карточки не найдена' });
+      }
+      res.status(500).send({ message: err.name });
+    });
 };
 
 module.exports.dislikeCard = (req, res) => {
@@ -51,6 +82,19 @@ module.exports.dislikeCard = (req, res) => {
     },
     { new: true }
   )
-    .then((card) => res.status(200).send({ data: card, message: 'DISLIKE' }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .then((card) => {
+      if (card === null) {
+        throw new NotFoundError();
+      }
+      res.status(200).send({ data: card, message: 'DISLIKE' });
+    })
+    .catch((err) => {
+      if (err.name === 'ReferenceError') {
+        return res.status(400).send({ message: 'Карточки не найдена' });
+      }
+      if (err.name === 'CastError') {
+        return res.status(404).send({ message: 'Карточки не найдена' });
+      }
+      res.status(500).send({ message: err.message });
+    });
 };
