@@ -8,24 +8,26 @@ module.exports.getUsers = (req, res) => {
 
 module.exports.getUserId = (req, res) => {
   const userId = req.params.userId;
-  console.log(req.params.userId);
 
   User.findById(userId)
     .then((user) => {
       if (user === null) {
-        throw new NotFoundError('Пользователь не найден');
+        throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
       return res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Пользователь не найден' });
+        return res
+          .status(400)
+          .send({ message: 'Запрашиваемый пользователь не найден' });
       }
-
       if (err.name === 'ReferenceError') {
-        return res.status(404).send({ message: 'Пользователь не найден' });
+        return res
+          .status(404)
+          .send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send({ message: err.name });
+      res.status(500).send({ message: err.message });
     });
 };
 
@@ -36,10 +38,9 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        console.log(err.name);
         return res.status(400).send({ message: 'Не корректные данные' });
       }
-      res.status(500).send({ message: err.name });
+      res.status(500).send({ message: err.message });
     });
 };
 
@@ -47,11 +48,16 @@ module.exports.updateUser = (req, res) => {
   const userId = req.user._id;
   const { name, about } = req.body;
 
-  User.findByIdAndUpdate(userId, { name, about })
+  User.findByIdAndUpdate(userId, { name, about }, { runValidators: true })
     .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
-      if (err.name === '') {
-        console.log(err.name);
+      if (err.name === 'ValidationError') {
+        return res.status(400).send({ message: 'Не корректные данные' });
+      }
+      if (err.name === 'CastError') {
+        return res
+          .status(404)
+          .send({ message: 'Запрашиваемый пользователь не найден' });
       }
       res.status(500).send({ message: err.message });
     });
