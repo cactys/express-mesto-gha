@@ -7,11 +7,17 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.getUserId = (req, res) => {
-  const { userId } = req.params;
+  const userId = req.params.userId;
+  console.log(req.params.userId);
 
-  User.find({ userId })
+  User.findById(userId)
     .then((user) => res.send({ data: user }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        return res.status(400).send({ message: 'Пользователь не найден' });
+      }
+      res.status(500).send({ message: err.name });
+    });
 };
 
 module.exports.createUser = (req, res) => {
@@ -19,7 +25,13 @@ module.exports.createUser = (req, res) => {
 
   User.create({ name, about, avatar })
     .then((user) => res.send({ data: user }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        console.log(err.name);
+        return res.status(400).send({ message: 'Не корректные данные ' });
+      }
+      res.status(500).send({ message: err.name });
+    });
 };
 
 module.exports.updateUser = (req, res) => {
@@ -28,7 +40,12 @@ module.exports.updateUser = (req, res) => {
 
   User.findByIdAndUpdate(userId, { name, about })
     .then((user) => res.status(200).send({ data: user }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name === '') {
+        console.log(err.name);
+      }
+      res.status(500).send({ message: err.message });
+    });
 };
 
 module.exports.updateAvatar = (req, res) => {
