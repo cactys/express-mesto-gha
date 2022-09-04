@@ -49,7 +49,12 @@ module.exports.updateUser = (req, res) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(userId, { name, about }, { runValidators: true })
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => {
+      if (user === null) {
+        throw new NotFoundError('Запрашиваемый пользователь не найден');
+      }
+      return res.status(200).send({ data: user });
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(400).send({ message: 'Не корректные данные' });
@@ -59,7 +64,12 @@ module.exports.updateUser = (req, res) => {
           .status(404)
           .send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send({ message: err.message });
+      if (err.name === 'ReferenceError') {
+        return res
+          .status(404)
+          .send({ message: 'Запрашиваемый пользователь не найден' });
+      }
+      res.status(500).send({ message: err.name });
     });
 };
 
