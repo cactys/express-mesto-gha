@@ -48,11 +48,17 @@ module.exports.updateUser = (req, res) => {
   const userId = req.user._id;
   const { name, about } = req.body;
 
-  User.findByIdAndUpdate(userId, { name, about }, { runValidators: true })
+  User.findByIdAndUpdate(
+    userId,
+    { name, about },
+    { new: true, runValidators: true }
+  )
     .then((user) => {
       if (user === null) {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
+      console.log(user);
+
       return res.status(200).send({ data: user });
     })
     .catch((err) => {
