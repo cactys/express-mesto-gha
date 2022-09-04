@@ -25,10 +25,13 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/', (req, res) => {
+  res.status(404).send({ message: 'Страница не найдена' });
+});
 app.use('/users', users);
 app.use('/cards', cards);
 
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
