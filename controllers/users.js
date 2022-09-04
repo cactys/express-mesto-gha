@@ -11,10 +11,19 @@ module.exports.getUserId = (req, res) => {
   console.log(req.params.userId);
 
   User.findById(userId)
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      if (user === null) {
+        throw new NotFoundError('Пользователь не найден');
+      }
+      return res.send({ data: user });
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Пользователь не найден' });
+      }
+
+      if (err.name === 'ReferenceError') {
+        return res.status(404).send({ message: 'Пользователь не найден' });
       }
       res.status(500).send({ message: err.name });
     });
@@ -28,7 +37,7 @@ module.exports.createUser = (req, res) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         console.log(err.name);
-        return res.status(400).send({ message: 'Не корректные данные ' });
+        return res.status(400).send({ message: 'Не корректные данные' });
       }
       res.status(500).send({ message: err.name });
     });
