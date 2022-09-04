@@ -25,6 +25,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('*', (req, res, next) => {
+  next(new NotFoundError('Страница не найдена'));
+});
 app.use('/users', users);
 app.use('/cards', cards);
 
