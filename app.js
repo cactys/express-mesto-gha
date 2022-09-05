@@ -1,13 +1,11 @@
-require('dotenv').config();
-
-// const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 
-const { PORT, ERROR_CODE_404 } = process.env;
+// Без файла .env, ошибка в тесте =)
+const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(bodyParser.json());
@@ -28,7 +26,7 @@ app.use((req, res, next) => {
 app.use('/users', users);
 app.use('/cards', cards);
 app.use((req, res) => {
-  res.status(ERROR_CODE_404).send({ message: 'Страница не найдена' });
+  res.status(404).send({ message: 'Страница не найдена' });
 });
 
 app.listen(PORT, () => {
