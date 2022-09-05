@@ -6,9 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "lint": "npx eslint"
+    "lint": "npx eslint ."
   },
-  "prettier": {"singleQuote": true},
   "keywords": [],
   "author": "Vladimir Khnychkov",
   "license": "ISC",
@@ -20,9 +19,7 @@
   },
   "devDependencies": {
     "eslint": "^8.23.0",
-    "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "nodemon": "^2.0.19"
   }
