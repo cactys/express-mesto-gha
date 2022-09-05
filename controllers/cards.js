@@ -1,9 +1,15 @@
 const Card = require('../models/card');
+const {
+  ERROR_500,
+  ERROR_400,
+  CODE_200,
+  ERROR_404,
+} = require('../utils/code');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
     .then((card) => res.send({ data: card }))
-    .catch(() => res.status(500).send({ message: 'Что-то пошло не так' }));
+    .catch(() => res.status(ERROR_500).send({ message: 'Что-то пошло не так' }));
 };
 
 module.exports.createCard = (req, res) => {
@@ -15,10 +21,10 @@ module.exports.createCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res
-          .status(400)
+          .status(ERROR_400)
           .send({ message: 'Некорректные данные' });
       }
-      return res.status(500).send({ message: 'Что-то пошло не так' });
+      return res.status(ERROR_500).send({ message: 'Что-то пошло не так' });
     });
 };
 
@@ -29,18 +35,18 @@ module.exports.deleteCard = (req, res) => {
     .then((card) => {
       if (card === null) {
         return res
-          .status(404)
+          .status(ERROR_404)
           .send({ message: 'Карточки не найдена' });
       }
-      return res.status(200).send({ data: card, message: 'DELETE' });
+      return res.status(CODE_200).send({ data: card, message: 'DELETE' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
         return res
-          .status(400)
+          .status(ERROR_400)
           .send({ message: 'Карточки не найдена' });
       }
-      return res.status(500).send({ message: 'Что-то пошло не так' });
+      return res.status(ERROR_500).send({ message: 'Что-то пошло не так' });
     });
 };
 
@@ -58,18 +64,18 @@ module.exports.likeCard = (req, res) => {
     .then((card) => {
       if (card === null) {
         return res
-          .status(404)
+          .status(ERROR_404)
           .send({ message: 'Карточки не найдена' });
       }
-      return res.status(200).send({ data: card, message: 'LIKE' });
+      return res.status(CODE_200).send({ data: card, message: 'LIKE' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
         return res
-          .status(400)
+          .status(ERROR_400)
           .send({ message: 'Карточки не найдена' });
       }
-      return res.status(500).send({ message: 'Что-то пошло не так' });
+      return res.status(ERROR_500).send({ message: 'Что-то пошло не так' });
     });
 };
 
@@ -87,17 +93,17 @@ module.exports.dislikeCard = (req, res) => {
     .then((card) => {
       if (card === null) {
         return res
-          .status(404)
+          .status(ERROR_404)
           .send({ message: 'Карточки не найдена' });
       }
-      return res.status(200).send({ data: card, message: 'DISLIKE' });
+      return res.status(CODE_200).send({ data: card, message: 'DISLIKE' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
         return res
-          .status(400)
+          .status(ERROR_400)
           .send({ message: 'Карточки не найдена' });
       }
-      return res.status(500).send({ message: 'Что-то пошло не так' });
+      return res.status(ERROR_500).send({ message: 'Что-то пошло не так' });
     });
 };

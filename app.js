@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
+const { ERROR_400 } = require('./utils/code');
 
 // Без файла .env, ошибка в тесте =)
 const { PORT = 3000 } = process.env;
@@ -26,7 +27,7 @@ app.use((req, res, next) => {
 app.use('/users', users);
 app.use('/cards', cards);
 app.use((req, res) => {
-  res.status(404).send({ message: 'Страница не найдена' });
+  res.status(ERROR_400).send({ message: 'Страница не найдена' });
 });
 
 app.listen(PORT, () => {
