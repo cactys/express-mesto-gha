@@ -1,9 +1,6 @@
 const User = require('../models/user');
 const {
-  ERROR_500,
-  ERROR_400,
-  CODE_200,
-  ERROR_404,
+  ERROR_500, ERROR_400, CODE_200, ERROR_404,
 } = require('../utils/code');
 
 module.exports.getUsers = (req, res) => {
@@ -41,9 +38,7 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res
-          .status(ERROR_400)
-          .send({ message: 'Некорректные данные' });
+        return res.status(ERROR_400).send({ message: 'Некорректные данные' });
       }
       return res.status(ERROR_500).send({ message: 'Что-то пошло не так' });
     });
@@ -68,9 +63,7 @@ module.exports.updateUser = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res
-          .status(ERROR_400)
-          .send({ message: 'Некорректные данные' });
+        return res.status(ERROR_400).send({ message: 'Некорректные данные' });
       }
       if (err.name === 'CastError') {
         return res
@@ -96,9 +89,7 @@ module.exports.updateAvatar = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res
-          .status(ERROR_400)
-          .send({ message: 'Некорректные данные' });
+        return res.status(ERROR_400).send({ message: 'Некорректные данные' });
       }
       return res.status(ERROR_500).send({ message: 'Что-то пошло не так' });
     });
