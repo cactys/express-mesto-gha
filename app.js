@@ -5,7 +5,6 @@ const users = require('./routes/users');
 const cards = require('./routes/cards');
 const { ERROR_404 } = require('./utils/code');
 
-// Без файла .env, ошибка в тесте =)
 const { PORT = 3000 } = process.env;
 const app = express();
 
