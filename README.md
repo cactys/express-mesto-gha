@@ -1,5 +1,5 @@
 [![Tests](https://github.com/cactys/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/cactys/express-mesto-gha/actions/workflows/tests-13-sprint.yml) [![Tests](https://github.com/cactys/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/cactys/express-mesto-gha/actions/workflows/tests-14-sprint.yml)
-# Проект Mesto фронтенд + бэкенд
+# Проект Mesto бэкенд
 
 ## Настройка бейджей статуса тестов
 Перед началом работы над проектом рекомендуется исправить бейджи, отражающие статус прохождения тестов.
