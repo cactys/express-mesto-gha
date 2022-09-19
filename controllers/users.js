@@ -49,10 +49,7 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => {
-      res.status(CODE_201).send({
-        _id: user._id,
-        email: user.email,
-      });
+      res.status(CODE_201).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -81,7 +78,10 @@ module.exports.login = (req, res, next) => {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
         })
-        .send({ data: user })
+        .send({
+          _id: user._id,
+          email: user.email,
+        })
         .end();
     })
     .catch(next);
