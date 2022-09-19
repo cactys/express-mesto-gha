@@ -51,14 +51,12 @@ app.all('/*', (req, res, next) => {
 
 app.use(errors());
 app.use((err, req, res, next) => {
-  const { codeError = 500, message } = err;
-
   res
-    .status(codeError)
+    .status(ERROR_500)
     .send({
-      message: codeError === 500
+      message: ERROR_500 === 500
         ? 'На сервере произошла ошибка'
-        : message,
+        : err.message,
     });
 
   next();
