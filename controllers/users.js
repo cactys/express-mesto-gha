@@ -4,10 +4,7 @@ const BadRequestError = require('../errors/bad-request-error');
 const ConflictError = require('../errors/conflict-error');
 const NotFoundError = require('../errors/not-found-err');
 const User = require('../models/user');
-const {
-  CODE_200,
-  CODE_201,
-} = require('../utils/code');
+const { CODE_200, CODE_201 } = require('../utils/code');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -75,11 +72,9 @@ module.exports.login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign(
-        { _id: user._id },
-        'super-strong-secret',
-        { expiresIn: '7d' },
-      );
+      const token = jwt.sign({ _id: user._id }, 'super-strong-secret', {
+        expiresIn: '7d',
+      });
 
       res
         .cookie('jwt', token, {
