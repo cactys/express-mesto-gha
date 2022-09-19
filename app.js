@@ -8,6 +8,7 @@ const { login, createUser, getUserId } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
 const { ERROR_500 } = require('./utils/code');
+const { patternUrl } = require('./utils/pattern');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -26,6 +27,9 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required().min(8),
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30),
+    avatar: Joi.string().uri().regex(patternUrl),
   }),
 }), createUser);
 app.post('/signin', celebrate({
