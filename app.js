@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { celebrate, Joi, errors } = require('celebrate');
 const cards = require('./routes/cards');
-const { login, createUser, getUserId } = require('./controllers/users');
+const users = require('./routes/users');
+const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
 const { ERROR_500 } = require('./utils/code');
@@ -41,7 +42,7 @@ app.post('/signin', celebrate({
 
 app.use(auth);
 
-app.use('/users/me', getUserId);
+app.use('/users', users);
 app.use('/cards', cards);
 
 app.all('/*', (req, res, next) => {
