@@ -1,5 +1,6 @@
 const code = {
   CODE_200: 200,
+  CODE_201: 201,
   ERROR_400: 400,
   ERROR_401: 401,
   ERROR_404: 404,

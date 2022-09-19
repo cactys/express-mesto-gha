@@ -2,7 +2,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const {
-  ERROR_500, ERROR_400, CODE_200, ERROR_404, ERROR_401,
+  ERROR_500,
+  ERROR_400,
+  CODE_200,
+  ERROR_404,
+  ERROR_401,
+  CODE_201,
 } = require('../utils/code');
 
 module.exports.getUsers = (req, res) => {
@@ -40,7 +45,12 @@ module.exports.createUser = (req, res) => {
       email: req.body.email,
       password: hash,
     }))
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      res.status(CODE_201).send({
+        _id: user._id,
+        email: user.email,
+      });
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(ERROR_400).send({
@@ -49,6 +59,20 @@ module.exports.createUser = (req, res) => {
       }
       return res.status(ERROR_500).send({ message: 'Что-то пошло не так' });
     });
+};
+
+module.exports.login = (req, res) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      res.send({
+        token: jwt.sign({ _id: user._id }, 'super-strong-secret', {
+          expiresIn: '7d',
+        }),
+      });
+    })
+    .catch(() => res.status(ERROR_401).send({ message: 'Что-то пошло не так' }));
 };
 
 module.exports.updateUser = (req, res) => {
@@ -104,39 +128,4 @@ module.exports.updateAvatar = (req, res) => {
       }
       return res.status(ERROR_500).send({ message: 'Что-то пошло не так' });
     });
-};
-
-module.exports.login = (req, res) => {
-  const { email, password } = req.body;
-
-  return User.findUserByCredentials(email, password)
-    .then((user) => {
-      const token = jwt.sign(
-        { _id: user._id },
-        'some-secret-key',
-        { expiresIn: '7d' },
-      );
-
-      res.send({ token });
-    })
-    .catch(() => res.status(ERROR_401).send(({ message: 'Что-то пошло не так' })));
-
-  // User.findOne({ email })
-  //   .then((user) => {
-  //     if (!user) {
-  //       return Promise.reject(new Error('Неправильные почта или пароль'));
-  //     }
-
-  //     return bcrypt.compare(password, user.password);
-  //   })
-  //   .then((matched) => {
-  //     if (!matched) {
-  //       return Promise.reject(new Error('Неправильные почта или пароль'));
-  //     }
-
-  //     return res.send({ message: 'Успех!' });
-  //   })
-  //   .catch(() => {
-  //     res.status(ERROR_401).send(({ message: 'Что-то пошло не так' }));
-  //   });
 };
