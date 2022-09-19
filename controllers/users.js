@@ -58,10 +58,10 @@ module.exports.createUser = (req, res, next) => {
       }
       if (err.code === 11000) {
         next(new ConflictError());
+        return;
       }
       next(err);
-    })
-    .catch(next);
+    });
 };
 
 module.exports.login = (req, res, next) => {
