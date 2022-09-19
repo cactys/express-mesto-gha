@@ -2,10 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 // const bcrypt = require('bcrypt');
-const users = require('./routes/users');
+// const users = require('./routes/users');
 const cards = require('./routes/cards');
 const { ERROR_404 } = require('./utils/code');
-const { login, createUser } = require('./controllers/users');
+const { login, createUser, getUserId } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 
 const { PORT = 3000 } = process.env;
@@ -31,7 +31,7 @@ app.post('/signup', createUser);
 
 app.use(auth);
 
-app.use('/users', users);
+app.use('/users/me', getUserId);
 app.use('/cards', cards);
 app.use((req, res) => {
   res.status(ERROR_404).send({ message: 'Страница не найдена' });
