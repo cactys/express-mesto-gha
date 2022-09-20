@@ -55,10 +55,7 @@ module.exports.createUser = (req, res, next) => {
     .then((user) => {
       res
         .status(CODE_201)
-        .send({
-          _id: user._id,
-          email: user.email,
-        });
+        .send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
