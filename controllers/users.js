@@ -17,7 +17,10 @@ module.exports.getCurrentUser = (req, res, next) => {
 
   User.findById(_id)
     .then((user) => {
-      res.send({ data: user });
+      res.send({
+        _id: user._id,
+        email: user.email,
+      });
     })
     .catch(next);
 };
