@@ -30,9 +30,7 @@ module.exports.getUserId = (req, res, next) => {
       if (user === null) {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
-      return res.send({
-        _id: user._id,
-      });
+      return res.send({ data: user.toObject() });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
