@@ -3,40 +3,48 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const UnauthorizedError = require('../errors/unauthorized-error');
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: {
-      validator: (v) => validator.isEmail(v),
-      message: 'Неправильный формат почты',
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      validate: {
+        validator: (v) => validator.isEmail(v),
+        message: 'Неправильный формат почты',
+      },
+    },
+    password: {
+      type: String,
+      required: true,
+      select: false,
+      minlength: [8, 'Должно быть, не меньше 8 символов, получено {VALUE}'],
+    },
+    name: {
+      type: String,
+      default: 'Жак-Ив Кусто',
+      minlength: [2, 'Должно быть, не меньше 2 символа, получено {VALUE}'],
+      maxlength: [30, 'Должно быть, не больше 30 символов, получено {VALUE} '],
+    },
+    about: {
+      type: String,
+      default: 'Исследователь',
+      minlength: [2, 'Должно быть, не меньше 2 символа, получено {VALUE}'],
+      maxlength: [30, 'Должно быть, не больше 30 символов, получено {VALUE} '],
+    },
+    avatar: {
+      type: String,
+      default:
+        'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     },
   },
-  password: {
-    type: String,
-    required: true,
-    select: false,
-    minlength: [8, 'Должно быть, не меньше 8 символов, получено {VALUE}'],
+  {
+    toObject: {
+      useProjection: true,
+      versionKey: false,
+    },
   },
-  name: {
-    type: String,
-    default: 'Жак-Ив Кусто',
-    minlength: [2, 'Должно быть, не меньше 2 символа, получено {VALUE}'],
-    maxlength: [30, 'Должно быть, не больше 30 символов, получено {VALUE} '],
-  },
-  about: {
-    type: String,
-    default: 'Исследователь',
-    minlength: [2, 'Должно быть, не меньше 2 символа, получено {VALUE}'],
-    maxlength: [30, 'Должно быть, не больше 30 символов, получено {VALUE} '],
-  },
-  avatar: {
-    type: String,
-    default:
-      'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
-  },
-});
+);
 
 // eslint-disable-next-line func-names
 userSchema.statics.findUserByCredentials = function (email, password) {
