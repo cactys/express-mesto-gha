@@ -8,7 +8,7 @@ const { CODE_200, CODE_201 } = require('../utils/code');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((user) => res.send({ data: user.toObject() }))
+    .then((user) => res.send({ data: user }))
     .catch(next);
 };
 
