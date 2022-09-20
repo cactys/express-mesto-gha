@@ -19,7 +19,6 @@ module.exports.getCurrentUser = (req, res, next) => {
     .then((user) => {
       res.send({
         _id: user._id,
-        email: user.email,
       });
     })
     .catch(next);
@@ -34,8 +33,7 @@ module.exports.getUserId = (req, res, next) => {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
       return res.send({
-        email: user.email,
-        password: user.password,
+        _id: user._id,
       });
     })
     .catch((err) => {
@@ -58,8 +56,8 @@ module.exports.createUser = (req, res, next) => {
       res
         .status(CODE_201)
         .send({
-          _id: user._id,
           email: user.email,
+          password: user.password,
         });
     })
     .catch((err) => {
@@ -114,8 +112,8 @@ module.exports.updateUser = (req, res, next) => {
       return res
         .status(CODE_200)
         .send({
-          _id: user._id,
-          email: user.email,
+          name: user.name,
+          about: user.about,
         });
     })
     .catch((err) => {
@@ -143,8 +141,7 @@ module.exports.updateAvatar = (req, res, next) => {
       return res
         .status(CODE_200)
         .send({
-          _id: user._id,
-          email: user.email,
+          avatar: user.avatar,
         });
     })
     .catch((err) => {

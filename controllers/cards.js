@@ -36,7 +36,7 @@ module.exports.deleteCard = (req, res) => {
       if (card === null) {
         return res
           .status(ERROR_404)
-          .send({ message: 'Карточки не найдена' });
+          .send({ message: 'Картачка не найдена' });
       }
       return res.status(CODE_200).send({ data: card, message: 'DELETE' });
     })
@@ -44,7 +44,7 @@ module.exports.deleteCard = (req, res) => {
       if (err.name === 'CastError') {
         return res
           .status(ERROR_400)
-          .send({ message: 'Карточки не найдена' });
+          .send({ message: 'Картачка не найдена' });
       }
       return res.status(ERROR_500).send({ message: 'Что-то пошло не так' });
     });
@@ -65,7 +65,7 @@ module.exports.likeCard = (req, res) => {
       if (card === null) {
         return res
           .status(ERROR_404)
-          .send({ message: 'Карточки не найдена' });
+          .send({ message: 'Картачка не найдена' });
       }
       return res.status(CODE_200).send({ data: card, message: 'LIKE' });
     })
@@ -73,7 +73,7 @@ module.exports.likeCard = (req, res) => {
       if (err.name === 'CastError') {
         return res
           .status(ERROR_400)
-          .send({ message: 'Карточки не найдена' });
+          .send({ message: 'Картачка не найдена' });
       }
       return res.status(ERROR_500).send({ message: 'Что-то пошло не так' });
     });
@@ -94,7 +94,7 @@ module.exports.dislikeCard = (req, res) => {
       if (card === null) {
         return res
           .status(ERROR_404)
-          .send({ message: 'Карточки не найдена' });
+          .send({ message: 'Картачка не найдена' });
       }
       return res.status(CODE_200).send({ data: card, message: 'DISLIKE' });
     })
@@ -102,7 +102,7 @@ module.exports.dislikeCard = (req, res) => {
       if (err.name === 'CastError') {
         return res
           .status(ERROR_400)
-          .send({ message: 'Карточки не найдена' });
+          .send({ message: 'Картачка не найдена' });
       }
       return res.status(ERROR_500).send({ message: 'Что-то пошло не так' });
     });
