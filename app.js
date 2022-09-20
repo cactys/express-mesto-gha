@@ -7,6 +7,7 @@ const cards = require('./routes/cards');
 const users = require('./routes/users');
 const auth = require('./middlewares/auth');
 const routes = require('./routes');
+const NotFoundError = require('./errors/not-found-err');
 
 const { PORT = 3000 } = process.env;
 
@@ -28,6 +29,10 @@ app.use(auth);
 
 app.use('/users', users);
 app.use('/cards', cards);
+
+app.use((res, req, next) => {
+  next(new NotFoundError('Страница не найдена'));
+});
 
 app.use(errors());
 app.use((err, req, res, next) => {
