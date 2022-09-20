@@ -58,9 +58,6 @@ module.exports.createUser = (req, res, next) => {
         .send({
           email: user.email,
           password: user.password,
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
         });
     })
     .catch((err) => {
