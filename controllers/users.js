@@ -30,7 +30,10 @@ module.exports.getUserId = (req, res, next) => {
       if (user === null) {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
-      return res.send({ data: user });
+      return res.send({
+        _id: user._id,
+        email: user.email,
+      });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -49,7 +52,12 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => {
-      res.status(CODE_201).send({ data: user });
+      res
+        .status(CODE_201)
+        .send({
+          _id: user._id,
+          email: user.email,
+        });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -78,7 +86,10 @@ module.exports.login = (req, res, next) => {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
         })
-        .send({ data: user })
+        .send({
+          _id: user._id,
+          email: user.email,
+        })
         .end();
     })
     .catch(next);
@@ -97,7 +108,12 @@ module.exports.updateUser = (req, res, next) => {
       if (user === null) {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
-      return res.status(CODE_200).send({ data: user });
+      return res
+        .status(CODE_200)
+        .send({
+          _id: user._id,
+          email: user.email,
+        });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -121,7 +137,12 @@ module.exports.updateAvatar = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Запрашиваемый пользователь не найден');
       }
-      return res.status(CODE_200).send({ data: user });
+      return res
+        .status(CODE_200)
+        .send({
+          _id: user._id,
+          email: user.email,
+        });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
