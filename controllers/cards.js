@@ -37,19 +37,15 @@ module.exports.deleteCard = (req, res, next) => {
       if (card.owner !== ownerId) {
         throw new ForbiddenError();
       }
-      // return res.status(CODE_200).send({ data: card, message: 'DELETE' });
-      return card;
+      return res.status(CODE_200).send({ data: card, message: 'DELETE' });
     })
-    .then((card) => Card.deleteOne(card))
-    .then((card) => res.send({ data: card, message: 'DELETE' }))
-    .catch(next);
-  // .catch((err) => {
-  //   if (err.name === 'CastError') {
-  //     next(new BadRequestError('Картачка не найдена'));
-  //     return;
-  //   }
-  //   next(err);
-  // });
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Картачка не найдена'));
+        return;
+      }
+      next(err);
+    });
 };
 
 module.exports.likeCard = (req, res, next) => {
