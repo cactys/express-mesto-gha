@@ -39,13 +39,7 @@ module.exports.deleteCard = (req, res, next) => {
       }
       return res.status(CODE_200).send({ data: card, message: 'DELETE' });
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Картачка не найдена'));
-        return;
-      }
-      next(err);
-    });
+    .catch(next);
 };
 
 module.exports.likeCard = (req, res, next) => {
