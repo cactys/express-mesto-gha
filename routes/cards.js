@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+Joi.objectId = require('joi-objectid')(Joi);
+
 const {
   getCards,
   createCard,
@@ -20,7 +22,7 @@ router.post('/', celebrate({
 
 router.delete('/:cardId', celebrate({
   body: Joi.object().keys({
-    cardId: Joi.objectId().string().hex().length(24),
+    cardId: Joi.objectId().required(),
   }),
 }), deleteCard);
 
