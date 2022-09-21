@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "fix-lint": "npx eslint --fix ."
   },
   "keywords": [],
   "author": "Vladimir Khnychkov",
