@@ -8,6 +8,7 @@ const users = require('./routes/users');
 const auth = require('./middlewares/auth');
 const routes = require('./routes');
 const NotFoundError = require('./errors/not-found-err');
+const { ERROR_500 } = require('./utils/code');
 
 const { PORT = 3000 } = process.env;
 
@@ -36,12 +37,12 @@ app.use((res, req, next) => {
 
 app.use(errors());
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
+  const { statusCode = ERROR_500, message } = err;
 
   res
     .status(err.statusCode)
     .send({
-      message: statusCode === 500
+      message: statusCode === ERROR_500
         ? 'На сервере произошла ошибка'
         : message,
     });

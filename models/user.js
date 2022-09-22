@@ -18,7 +18,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       select: false,
-      minlength: [8, 'Должно быть, не меньше 8 символов, получено {VALUE}'],
     },
     name: {
       type: String,
@@ -36,6 +35,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default:
         'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+      validate: {
+        validator: (v) => validator.isURL(v),
+        message: 'Неправильный формат почты',
+      },
     },
   },
   {

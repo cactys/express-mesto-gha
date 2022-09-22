@@ -93,7 +93,6 @@ module.exports.login = (req, res, next) => {
         })
         .send({
           email: user.email,
-          password: user.password,
         })
         .end();
     })

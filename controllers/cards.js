@@ -29,7 +29,7 @@ module.exports.deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   const ownerId = req.user._id;
 
-  Card.findByIdAndRemove(cardId)
+  Card.findById(cardId)
     .then((card) => {
       if (card === null) {
         throw new NotFoundError('Картачка не найдена');
@@ -37,8 +37,10 @@ module.exports.deleteCard = (req, res, next) => {
       if (card.owner.toString() !== ownerId) {
         throw new ForbiddenError();
       }
-      return res.status(CODE_200).send({ data: card, message: 'DELETE' });
+      return card;
     })
+    .then((card) => Card.deleteOne(card))
+    .then((card) => res.status(CODE_200).send({ card, message: 'DELETE' }))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Картачка не найдена'));
