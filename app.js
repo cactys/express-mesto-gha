@@ -11,7 +11,7 @@ const routes = require('./routes');
 const NotFoundError = require('./errors/not-found-err');
 const { ERROR_500 } = require('./utils/code');
 
-const { PORT = 5000 } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 
