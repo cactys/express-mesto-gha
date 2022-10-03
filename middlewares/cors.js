@@ -1,7 +1,8 @@
 const allowedCors = [
   'http://khortys.nomoredomains.icu/',
-  'http://backhortys.nomoredomains.icu/',
-  'http://localhobdfbst:3000',
+  'https://khortys.nomoredomains.icu/',
+  'http://localhost:3000',
+  'https://localhost:3000',
 ];
 
 const DEFAULT_ALLOWED_METHODS = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'];
